@@ -1,22 +1,24 @@
 # Example:
-```
+Class A and B starts asynchronously.
+
+```c#
 public class A : MonoBehaviour
 {
   private void Start()
   {
-    GlobalObserver.GetInstance().UpdateData("playerCoins", 123);
+      GlobalObserver.GetInstance().UpdateData("playerCoins", 123);
   }
 }
 ```
 
-```
+```c#
 public class B : MonoBehaviour, IGlobalDataObject
 {
   private int _playerCoins;
 
   private void Start()
   {
-    GlobalObserver.GetInstance().Add("playerCoins", this);
+      GlobalObserver.GetInstance().Add("playerCoins", this);
   }
   
   private void OnDestroy()
