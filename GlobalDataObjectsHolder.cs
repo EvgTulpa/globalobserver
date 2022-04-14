@@ -4,11 +4,11 @@ namespace CommonStructures
 {
     public sealed class GlobalDataObjectsHolder
     {
-        private readonly List<IGlobalDataObject> _gameDataObjects;
+        private readonly List<IGlobalDataObject> _globalDataObjects;
 
         public GlobalDataObjectsHolder()
         {
-            _gameDataObjects = new List<IGlobalDataObject>();
+            _globalDataObjects = new List<IGlobalDataObject>();
         }
 
         public void Add(IGlobalDataObject dataObject)
@@ -16,22 +16,22 @@ namespace CommonStructures
             if(dataObject == null)
                 return;
             
-            if(_gameDataObjects.Contains(dataObject))
+            if(_globalDataObjects.Contains(dataObject))
                 return;
 
             dataObject.OnDisposed += ConnectorDisposed;
-            _gameDataObjects.Add(dataObject);
+            _globalDataObjects.Add(dataObject);
         }
 
         private void ConnectorDisposed(IGlobalDataObject dataObject)
         {
             dataObject.OnDisposed -= ConnectorDisposed;
-            _gameDataObjects.Remove(dataObject);
+            _globalDataObjects.Remove(dataObject);
         }
 
         public void UpdateData(object data)
         {
-            _gameDataObjects.ForEach(e=>e.UpdateData(data));
+            _globalDataObjects.ForEach(e=>e.UpdateData(data));
         }
     }
 }
