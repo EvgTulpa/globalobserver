@@ -1,5 +1,6 @@
 # Example:
 Class A and B from different sytems starts asynchronously. You don`t know wich object will start first, but you need to pass some data from A to B.
+In this example the data by key "coinsContainer" will not be setted.
 
 ```c#
 public class A : MonoBehaviour
