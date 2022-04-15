@@ -1,6 +1,7 @@
 # Example:
 Class A and B from different sytems starts asynchronously. You don`t know wich object will start first, but you need to pass some data from A to B.
 In this example the data by key "coinsContainer" will not be setted.
+If object A will be created first, the object B will receive the data after it will be added to GlobalObserver, because of DeferredData.
 
 ```c#
 public class A : MonoBehaviour
