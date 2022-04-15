@@ -19,7 +19,7 @@ namespace CommonStructures
             GlobalDataObjects.Add(dataObject);
         }
 
-        public bool Remove(IGlobalDataObject dataObject)
+        public bool RemoveAndCheckIsEmpty(IGlobalDataObject dataObject)
         {
             GlobalDataObjects.Remove(dataObject);
             return GlobalDataObjects.Count == 0;
