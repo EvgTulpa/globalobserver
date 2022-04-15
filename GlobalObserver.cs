@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace CommonStructures
 {
-    public class GlobalObserver
+    public sealed class GlobalObserver
     {
         private static GlobalObserver _instance;
 
