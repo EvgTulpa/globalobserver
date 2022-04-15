@@ -9,14 +9,14 @@ public class A : MonoBehaviour
 
   private void Start()
   {
-      GlobalObserver.GetInstance().UpdateData("playerCoins", 123);
-      GlobalObserver.GetInstance().UpdateData("coinsContainer", CoinsHolder);
+      GlobalObserver.Instance.UpdateData("playerCoins", 123);
+      GlobalObserver.Instance.UpdateData("coinsContainer", CoinsHolder);
   }
   
   private void OnDestroy()
   {
       // use this method if type of passed object is reference type, to clean up after yourself
-      GlobalObserver.GetInstance().TryRemoveDeferredData("coinsContainer", CoinsHolder);
+      GlobalObserver.Instance.TryRemoveDeferredData("coinsContainer", CoinsHolder);
   }
 }
 ```
@@ -28,12 +28,12 @@ public class B : MonoBehaviour, IGlobalDataObject
 
   private void Start()
   {
-      GlobalObserver.GetInstance().Add("playerCoins", this);
+      GlobalObserver.Instance.Add("playerCoins", this);
   }
   
   private void OnDestroy()
   {
-      GlobalObserver.GetInstance().Remove("playerCoins", this);
+      GlobalObserver.Instance.Remove("playerCoins", this);
   }
   
   // IGlobalDataObject interfaces methods
