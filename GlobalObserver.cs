@@ -19,15 +19,15 @@ namespace CommonStructures
 
         public bool Add(string id, IGlobalDataObject dataObject)
         {
-            if (dataObject == null || string.IsNullOrEmpty(id))
+            if (!IsParamsValid(id, dataObject))
                 return false;
             
-            if (!DataHolders.ContainsKey(id))
+            if (!IsDataHolderExist(id))
                 DataHolders[id] = new GlobalDataObjectsHolder();
             
             DataHolders[id].Add(dataObject);
             
-            if (DeferredData.ContainsKey(id))
+            if (IsDeferredDataExist(id))
             {
                 DataHolders[id].UpdateData(DeferredData[id]);
                 RemoveDeferredData(id);
@@ -38,10 +38,10 @@ namespace CommonStructures
 
         public bool Remove(string id, IGlobalDataObject dataObject)
         {
-            if (dataObject == null || string.IsNullOrEmpty(id))
+            if (!IsParamsValid(id, dataObject))
                 return false;
 
-            if (!DataHolders.ContainsKey(id))
+            if (!IsDataHolderExist(id))
                 return false;
 
             bool isEmpty = DataHolders[id].RemoveAndCheckIsEmpty(dataObject);
@@ -53,10 +53,10 @@ namespace CommonStructures
 
         public bool UpdateData(string id, object data)
         {
-            if (data == null || string.IsNullOrEmpty(id))
+            if (!IsParamsValid(id, data))
                 return false;
 
-            if (!DataHolders.ContainsKey(id))
+            if (!IsDataHolderExist(id))
             {
                 DeferredData[id] = data;
                 return false;
@@ -68,20 +68,33 @@ namespace CommonStructures
         
         public bool DisposeData(string id, object data)
         {
-            if (data == null || string.IsNullOrEmpty(id))
+            if (!IsParamsValid(id, data))
                 return false;
             
-            if (!DeferredData.ContainsKey(id))
+            if (!IsDeferredDataExist(id))
                 return false;
             
-            RemoveDeferredData(id);
-            return true;
+            return RemoveDeferredData(id);
         }
 
-        private void RemoveDeferredData(string id)
+        private bool IsParamsValid(string id, object data)
         {
-            DeferredData[id] = null;
-            DeferredData.Remove(id);
+            return !string.IsNullOrEmpty(id) && data != null;
+        }
+
+        private bool IsDataHolderExist(string id)
+        {
+            return DataHolders.ContainsKey(id);
+        }
+        
+        private bool IsDeferredDataExist(string id)
+        {
+            return DeferredData.ContainsKey(id);
+        }
+
+        private bool RemoveDeferredData(string id)
+        {
+            return DeferredData.Remove(id);
         }
     }
 }
