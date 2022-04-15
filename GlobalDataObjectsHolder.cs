@@ -13,9 +13,6 @@ namespace CommonStructures
 
         public void Add(IGlobalDataObject dataObject)
         {
-            if(dataObject == null)
-                return;
-            
             if(GlobalDataObjects.Contains(dataObject))
                 return;
 
@@ -24,7 +21,8 @@ namespace CommonStructures
 
         public bool Remove(IGlobalDataObject dataObject)
         {
-            return dataObject != null && GlobalDataObjects.Remove(dataObject);
+            GlobalDataObjects.Remove(dataObject);
+            return GlobalDataObjects.Count == 0;
         }
         
         public void UpdateData(object data)
