@@ -27,6 +27,9 @@ namespace CommonStructures
         
         public void UpdateData(object data)
         {
+            if(data == null)
+                return;
+            
             GlobalDataObjects.ForEach(e=>e.UpdateData(data));
         }
     }
