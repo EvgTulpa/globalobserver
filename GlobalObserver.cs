@@ -44,7 +44,7 @@ namespace CommonStructures
             if (!DataHolders.ContainsKey(id))
                 return false;
 
-            bool isEmpty = DataHolders[id].Remove(dataObject);
+            bool isEmpty = DataHolders[id].RemoveAndCheckIsEmpty(dataObject);
             if (isEmpty)
                 DataHolders.Remove(id);
             
