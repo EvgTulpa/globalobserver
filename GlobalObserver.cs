@@ -17,66 +17,58 @@ namespace CommonStructures
             DeferredData = new Dictionary<string, object>();
         }
 
-        public bool Add(string id, IGlobalDataObject dataObject)
+        public void Add(string id, IGlobalDataObject dataObject)
         {
             if (!IsParamsValid(id, dataObject))
-                return false;
+                return;
             
             if (!IsDataHolderExist(id))
                 DataHolders[id] = new GlobalDataObjectsHolder();
             
             DataHolders[id].Add(dataObject);
-            
-            if (IsDeferredDataExist(id))
-            {
-                DataHolders[id].UpdateData(DeferredData[id]);
-                RemoveDeferredData(id);
-            }
-            
-            return true;
+            UpdateHolderData(id, GetDeferredData(id));
         }
-
-        public bool Remove(string id, IGlobalDataObject dataObject)
+        
+        public void UpdateData(string id, object data)
         {
-            if (!IsParamsValid(id, dataObject))
-                return false;
+            if (!IsParamsValid(id, data))
+                return;
 
             if (!IsDataHolderExist(id))
-                return false;
+            {
+                DeferredData[id] = data;
+                return;
+            }
+            
+            UpdateHolderData(id, data);
+        }
+        
+        private void UpdateHolderData(string id, object data)
+        {
+            if (data != null)
+                DataHolders[id].UpdateData(data);
+        }
+
+        public void Remove(string id, IGlobalDataObject dataObject)
+        {
+            if (!IsParamsValid(id, dataObject))
+                return;
+
+            if (!IsDataHolderExist(id))
+                return;
 
             bool isEmpty = DataHolders[id].RemoveAndCheckIsEmpty(dataObject);
             if (isEmpty)
                 DataHolders.Remove(id);
             
-            return true;
-        }
-
-        public bool UpdateData(string id, object data)
-        {
-            if (!IsParamsValid(id, data))
-                return false;
-
-            if (!IsDataHolderExist(id))
-            {
-                DeferredData[id] = data;
-                return false;
-            }
-
-            DataHolders[id].UpdateData(data);
-            return true;
+            RemoveDeferredData(id);
         }
         
-        public bool DisposeData(string id, object data)
+        private object GetDeferredData(string id)
         {
-            if (!IsParamsValid(id, data))
-                return false;
-            
-            if (!IsDeferredDataExist(id))
-                return false;
-            
-            return RemoveDeferredData(id);
+            return IsDeferredDataExist(id) ? DeferredData[id] : null;
         }
-
+        
         private bool IsParamsValid(string id, object data)
         {
             return !string.IsNullOrEmpty(id) && data != null;
@@ -92,9 +84,10 @@ namespace CommonStructures
             return DeferredData.ContainsKey(id);
         }
 
-        private bool RemoveDeferredData(string id)
+        private void RemoveDeferredData(string id)
         {
-            return DeferredData.Remove(id);
+            if(IsDeferredDataExist(id))
+                DeferredData.Remove(id);
         }
     }
 }
