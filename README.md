@@ -23,7 +23,7 @@ public class B : MonoBehaviour, IGlobalDataObject
   
   private void OnDestroy()
   {
-      OnDisposed?.Invoke(this);
+      GlobalObserver.GetInstance().Remove("playerCoins", this);
   }
   
   // IGlobalDataObject interfaces methods
@@ -31,7 +31,5 @@ public class B : MonoBehaviour, IGlobalDataObject
   {
       _playerCoins = (int)data;
   }
-
-  public event Action<IGlobalDataObject> OnDisposed;
 }
 ```
