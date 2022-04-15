@@ -45,7 +45,7 @@ namespace CommonStructures
             return Holder[id].Remove(dataObject);
         }
 
-        public bool TryRemoveDeferredData(string id, object data)
+        public bool DisposeData(string id, object data)
         {
             if (data == null || string.IsNullOrEmpty(id))
                 return false;
