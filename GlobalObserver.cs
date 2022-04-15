@@ -22,7 +22,7 @@ namespace CommonStructures
 
         public void Add(string id, IGlobalDataObject dataObject)
         {
-            if (dataObject == null)
+            if (dataObject == null || string.IsNullOrEmpty(id))
                 return;
             
             if (!_holder.ContainsKey(id))
@@ -33,13 +33,13 @@ namespace CommonStructures
             if (_deferredData.ContainsKey(id))
             {
                 _holder[id].UpdateData(_deferredData[id]);
-                _deferredData.Remove(id);
+                RemoveDeferredData(id);
             }
         }
 
         public bool Remove(string id, IGlobalDataObject dataObject)
         {
-            if (dataObject == null)
+            if (dataObject == null || string.IsNullOrEmpty(id))
                 return false;
 
             if (!_holder.ContainsKey(id))
@@ -47,10 +47,22 @@ namespace CommonStructures
             
             return _holder[id].Remove(dataObject);
         }
+
+        public bool TryRemoveDeferredData(string id, object data)
+        {
+            if (data == null || string.IsNullOrEmpty(id))
+                return false;
+            
+            if (!_deferredData.ContainsKey(id))
+                return false;
+            
+            RemoveDeferredData(id);
+            return true;
+        }
         
         public bool UpdateData(string id, object data)
         {
-            if (data == null)
+            if (data == null || string.IsNullOrEmpty(id))
                 return false;
 
             if (!_holder.ContainsKey(id))
@@ -61,6 +73,12 @@ namespace CommonStructures
 
             _holder[id].UpdateData(data);
             return true;
+        }
+
+        private void RemoveDeferredData(string id)
+        {
+            _deferredData[id] = null;
+            _deferredData.Remove(id);
         }
     }
 }
