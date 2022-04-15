@@ -43,8 +43,12 @@ namespace CommonStructures
 
             if (!DataHolders.ContainsKey(id))
                 return false;
+
+            bool isEmpty = DataHolders[id].Remove(dataObject);
+            if (isEmpty)
+                DataHolders.Remove(id);
             
-            return DataHolders[id].Remove(dataObject);
+            return true;
         }
 
         public bool DisposeData(string id, object data)
