@@ -6,18 +6,15 @@ namespace CommonStructures
     {
         private static GlobalObserver _instance;
 
-        private readonly Dictionary<string, GlobalDataObjectsHolder> _holder;
-        private readonly Dictionary<string, object> _deferredData;
+        private readonly Dictionary<string, GlobalDataObjectsHolder> Holder;
+        private readonly Dictionary<string, object> DeferredData;
 
-        public static GlobalObserver GetInstance()
-        {
-            return _instance ?? (_instance = new GlobalObserver());
-        }
+        public static GlobalObserver Instance => _instance ?? (_instance = new GlobalObserver());
 
         private GlobalObserver()
         {
-            _holder = new Dictionary<string, GlobalDataObjectsHolder>();
-            _deferredData = new Dictionary<string, object>();
+            Holder = new Dictionary<string, GlobalDataObjectsHolder>();
+            DeferredData = new Dictionary<string, object>();
         }
 
         public void Add(string id, IGlobalDataObject dataObject)
@@ -25,14 +22,14 @@ namespace CommonStructures
             if (dataObject == null || string.IsNullOrEmpty(id))
                 return;
             
-            if (!_holder.ContainsKey(id))
-                _holder[id] = new GlobalDataObjectsHolder();
+            if (!Holder.ContainsKey(id))
+                Holder[id] = new GlobalDataObjectsHolder();
             
-            _holder[id].Add(dataObject);
+            Holder[id].Add(dataObject);
             
-            if (_deferredData.ContainsKey(id))
+            if (DeferredData.ContainsKey(id))
             {
-                _holder[id].UpdateData(_deferredData[id]);
+                Holder[id].UpdateData(DeferredData[id]);
                 RemoveDeferredData(id);
             }
         }
@@ -42,10 +39,10 @@ namespace CommonStructures
             if (dataObject == null || string.IsNullOrEmpty(id))
                 return false;
 
-            if (!_holder.ContainsKey(id))
+            if (!Holder.ContainsKey(id))
                 return false;
             
-            return _holder[id].Remove(dataObject);
+            return Holder[id].Remove(dataObject);
         }
 
         public bool TryRemoveDeferredData(string id, object data)
@@ -53,7 +50,7 @@ namespace CommonStructures
             if (data == null || string.IsNullOrEmpty(id))
                 return false;
             
-            if (!_deferredData.ContainsKey(id))
+            if (!DeferredData.ContainsKey(id))
                 return false;
             
             RemoveDeferredData(id);
@@ -65,20 +62,20 @@ namespace CommonStructures
             if (data == null || string.IsNullOrEmpty(id))
                 return false;
 
-            if (!_holder.ContainsKey(id))
+            if (!Holder.ContainsKey(id))
             {
-                _deferredData[id] = data;
+                DeferredData[id] = data;
                 return false;
             }
 
-            _holder[id].UpdateData(data);
+            Holder[id].UpdateData(data);
             return true;
         }
 
         private void RemoveDeferredData(string id)
         {
-            _deferredData[id] = null;
-            _deferredData.Remove(id);
+            DeferredData[id] = null;
+            DeferredData.Remove(id);
         }
     }
 }
