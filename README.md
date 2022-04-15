@@ -17,7 +17,7 @@ public class A : MonoBehaviour
   private void OnDestroy()
   {
       // use this method if type of passed object is reference type, to clean up after yourself
-      GlobalObserver.Instance.TryRemoveDeferredData("coinsContainer", CoinsHolder);
+      GlobalObserver.Instance.DisposeData("coinsContainer", CoinsHolder);
   }
 }
 ```
