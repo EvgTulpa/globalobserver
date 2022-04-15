@@ -4,11 +4,11 @@ namespace CommonStructures
 {
     public sealed class GlobalDataObjectsHolder
     {
-        private readonly List<IGlobalDataObject> _globalDataObjects;
+        private readonly List<IGlobalDataObject> GlobalDataObjects;
 
         public GlobalDataObjectsHolder()
         {
-            _globalDataObjects = new List<IGlobalDataObject>();
+            GlobalDataObjects = new List<IGlobalDataObject>();
         }
 
         public void Add(IGlobalDataObject dataObject)
@@ -16,20 +16,20 @@ namespace CommonStructures
             if(dataObject == null)
                 return;
             
-            if(_globalDataObjects.Contains(dataObject))
+            if(GlobalDataObjects.Contains(dataObject))
                 return;
 
-            _globalDataObjects.Add(dataObject);
+            GlobalDataObjects.Add(dataObject);
         }
 
         public bool Remove(IGlobalDataObject dataObject)
         {
-            return dataObject != null && _globalDataObjects.Remove(dataObject);
+            return dataObject != null && GlobalDataObjects.Remove(dataObject);
         }
         
         public void UpdateData(object data)
         {
-            _globalDataObjects.ForEach(e=>e.UpdateData(data));
+            GlobalDataObjects.ForEach(e=>e.UpdateData(data));
         }
     }
 }
