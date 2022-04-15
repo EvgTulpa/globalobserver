@@ -19,16 +19,14 @@ namespace CommonStructures
             if(_globalDataObjects.Contains(dataObject))
                 return;
 
-            dataObject.OnDisposed += ConnectorDisposed;
             _globalDataObjects.Add(dataObject);
         }
 
-        private void ConnectorDisposed(IGlobalDataObject dataObject)
+        public bool Remove(IGlobalDataObject dataObject)
         {
-            dataObject.OnDisposed -= ConnectorDisposed;
-            _globalDataObjects.Remove(dataObject);
+            return dataObject != null && _globalDataObjects.Remove(dataObject);
         }
-
+        
         public void UpdateData(object data)
         {
             _globalDataObjects.ForEach(e=>e.UpdateData(data));
