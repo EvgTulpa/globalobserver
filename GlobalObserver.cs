@@ -6,14 +6,14 @@ namespace CommonStructures
     {
         private static GlobalObserver _instance;
 
-        private readonly Dictionary<string, GlobalDataObjectsHolder> Holder;
+        private readonly Dictionary<string, GlobalDataObjectsHolder> DataHolders;
         private readonly Dictionary<string, object> DeferredData;
 
         public static GlobalObserver Instance => _instance ?? (_instance = new GlobalObserver());
 
         private GlobalObserver()
         {
-            Holder = new Dictionary<string, GlobalDataObjectsHolder>();
+            DataHolders = new Dictionary<string, GlobalDataObjectsHolder>();
             DeferredData = new Dictionary<string, object>();
         }
 
@@ -22,14 +22,14 @@ namespace CommonStructures
             if (dataObject == null || string.IsNullOrEmpty(id))
                 return false;
             
-            if (!Holder.ContainsKey(id))
-                Holder[id] = new GlobalDataObjectsHolder();
+            if (!DataHolders.ContainsKey(id))
+                DataHolders[id] = new GlobalDataObjectsHolder();
             
-            Holder[id].Add(dataObject);
+            DataHolders[id].Add(dataObject);
             
             if (DeferredData.ContainsKey(id))
             {
-                Holder[id].UpdateData(DeferredData[id]);
+                DataHolders[id].UpdateData(DeferredData[id]);
                 RemoveDeferredData(id);
             }
             
@@ -41,10 +41,10 @@ namespace CommonStructures
             if (dataObject == null || string.IsNullOrEmpty(id))
                 return false;
 
-            if (!Holder.ContainsKey(id))
+            if (!DataHolders.ContainsKey(id))
                 return false;
             
-            return Holder[id].Remove(dataObject);
+            return DataHolders[id].Remove(dataObject);
         }
 
         public bool DisposeData(string id, object data)
@@ -64,13 +64,13 @@ namespace CommonStructures
             if (data == null || string.IsNullOrEmpty(id))
                 return false;
 
-            if (!Holder.ContainsKey(id))
+            if (!DataHolders.ContainsKey(id))
             {
                 DeferredData[id] = data;
                 return false;
             }
 
-            Holder[id].UpdateData(data);
+            DataHolders[id].UpdateData(data);
             return true;
         }
 
