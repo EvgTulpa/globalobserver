@@ -51,18 +51,6 @@ namespace CommonStructures
             return true;
         }
 
-        public bool DisposeData(string id, object data)
-        {
-            if (data == null || string.IsNullOrEmpty(id))
-                return false;
-            
-            if (!DeferredData.ContainsKey(id))
-                return false;
-            
-            RemoveDeferredData(id);
-            return true;
-        }
-        
         public bool UpdateData(string id, object data)
         {
             if (data == null || string.IsNullOrEmpty(id))
@@ -75,6 +63,18 @@ namespace CommonStructures
             }
 
             DataHolders[id].UpdateData(data);
+            return true;
+        }
+        
+        public bool DisposeData(string id, object data)
+        {
+            if (data == null || string.IsNullOrEmpty(id))
+                return false;
+            
+            if (!DeferredData.ContainsKey(id))
+                return false;
+            
+            RemoveDeferredData(id);
             return true;
         }
 
