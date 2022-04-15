@@ -17,10 +17,10 @@ namespace CommonStructures
             DeferredData = new Dictionary<string, object>();
         }
 
-        public void Add(string id, IGlobalDataObject dataObject)
+        public bool Add(string id, IGlobalDataObject dataObject)
         {
             if (dataObject == null || string.IsNullOrEmpty(id))
-                return;
+                return false;
             
             if (!Holder.ContainsKey(id))
                 Holder[id] = new GlobalDataObjectsHolder();
@@ -32,6 +32,8 @@ namespace CommonStructures
                 Holder[id].UpdateData(DeferredData[id]);
                 RemoveDeferredData(id);
             }
+            
+            return true;
         }
 
         public bool Remove(string id, IGlobalDataObject dataObject)
