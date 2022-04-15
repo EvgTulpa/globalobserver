@@ -14,7 +14,7 @@ namespace CommonStructures
             return _instance ?? (_instance = new GlobalObserver());
         }
 
-        public GlobalObserver()
+        private GlobalObserver()
         {
             _holder = new Dictionary<string, GlobalDataObjectsHolder>();
             _deferredData = new Dictionary<string, object>();
@@ -35,6 +35,17 @@ namespace CommonStructures
                 _holder[id].UpdateData(_deferredData[id]);
                 _deferredData.Remove(id);
             }
+        }
+
+        public bool Remove(string id, IGlobalDataObject dataObject)
+        {
+            if (dataObject == null)
+                return false;
+
+            if (!_holder.ContainsKey(id))
+                return false;
+            
+            return _holder[id].Remove(dataObject);
         }
         
         public bool UpdateData(string id, object data)
