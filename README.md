@@ -1,5 +1,5 @@
 # Example:
-Class A and B starts asynchronously.
+Class A and B from different sytems starts asynchronously. You don`t know wich object will start first, but you need to pass some data from A to B.
 
 ```c#
 public class A : MonoBehaviour
