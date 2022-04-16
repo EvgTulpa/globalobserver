@@ -51,8 +51,6 @@ namespace CommonStructures
 
         public void Remove(string id, IGlobalDataObject dataObject)
         {
-            RemoveData(id);
-            
             if (!IsParamsValid(id, dataObject))
                 return;
 
