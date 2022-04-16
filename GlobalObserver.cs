@@ -69,7 +69,8 @@ namespace CommonStructures
             if(string.IsNullOrEmpty(id))
                 return;
             
-            RemoveDeferredData(id);
+            if(IsDeferredDataExist(id))
+                DeferredData.Remove(id);
         }
         
         private bool IsParamsValid(string id, object data)
@@ -85,12 +86,6 @@ namespace CommonStructures
         private bool IsDeferredDataExist(string id)
         {
             return DeferredData.ContainsKey(id);
-        }
-
-        private void RemoveDeferredData(string id)
-        {
-            if(IsDeferredDataExist(id))
-                DeferredData.Remove(id);
         }
     }
 }
