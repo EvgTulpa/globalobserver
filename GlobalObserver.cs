@@ -26,7 +26,7 @@ namespace CommonStructures
                 DataHolders[id] = new GlobalDataObjectsHolder();
             
             DataHolders[id].Add(dataObject);
-            UpdateHolderData(id, GetDeferredData(id));
+            UpdateHolderData(id, IsDeferredDataExist(id) ? DeferredData[id] : null);
         }
         
         public void UpdateData(string id, object data)
@@ -63,10 +63,13 @@ namespace CommonStructures
             
             RemoveDeferredData(id);
         }
-        
-        private object GetDeferredData(string id)
+
+        public void RemoveData(string id)
         {
-            return IsDeferredDataExist(id) ? DeferredData[id] : null;
+            if(string.IsNullOrEmpty(id))
+                return;
+            
+            RemoveDeferredData(id);
         }
         
         private bool IsParamsValid(string id, object data)
