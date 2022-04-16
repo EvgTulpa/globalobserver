@@ -13,6 +13,13 @@ public class A : MonoBehaviour
       GlobalObserver.Instance.UpdateData("playerCoins", 123);
       GlobalObserver.Instance.UpdateData("coinsContainer", CoinsHolder);
   }
+  
+  private void OnDestroy()
+  {
+      // need to cleanup after yourself
+      GlobalObserver.Instance.RemoveData("playerCoins");
+      GlobalObserver.Instance.RemoveData("coinsContainer");
+  }
 }
 ```
 
