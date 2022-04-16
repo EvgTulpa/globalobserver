@@ -51,6 +51,8 @@ namespace CommonStructures
 
         public void Remove(string id, IGlobalDataObject dataObject)
         {
+            RemoveDeferredData(id);
+            
             if (!IsParamsValid(id, dataObject))
                 return;
 
@@ -60,8 +62,6 @@ namespace CommonStructures
             bool isEmpty = DataHolders[id].RemoveAndCheckIsEmpty(dataObject);
             if (isEmpty)
                 DataHolders.Remove(id);
-            
-            RemoveDeferredData(id);
         }
 
         public void RemoveData(string id)
